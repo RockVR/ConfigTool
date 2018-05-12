@@ -100,6 +100,7 @@ def main():
     gen_enums = list()
     MODEL_FILE = 'models.py'
     ENUM_FILE = 'enums.py'
+    ADMIN_FILE = 'admin.py'
 
     # models.py
     model_file = open(TARGET_FOLDER + MODEL_FILE, 'w')
@@ -112,6 +113,13 @@ def main():
     GenerateHeader(enum_file)
     writer.I0(enum_file, "from enum import Enum")
     writer.I0(enum_file)
+
+    # admin.py
+    admin_file = open(TARGET_FOLDER + ADMIN_FILE, 'w')
+    GenerateHeader(admin_file)
+    writer.I0(admin_file, "from django.contrib import admin")
+    writer.I0(admin_file, "from .models import *")
+    writer.I0(admin_file, "")
 
     for xls_file in xls_files:
         print("Parsing xls file", xls_file)
@@ -134,7 +142,7 @@ def main():
             for i in range(1, len(sheet[ROW_4])):
                 field_name = sheet[ROW_4][i].value
                 # array field type
-                print("Parsing Field", field_name)
+                print("Parsing field", field_name)
                 if field_name == last_field_name:
                     continue
                 field_description = sheet[ROW_5][i].value
@@ -162,10 +170,10 @@ def main():
             # save model to generate
             gen_models.append(model)
 
-    # write models.py
-    print("Generating " + MODEL_FILE + " file...")
+    # write models.py & admin.py
+    print("Generating " + MODEL_FILE + " and " + ADMIN_FILE + " file...")
     for model in gen_models:
-        print("Generating", model)
+        print("Generating model", model.name)
         # model comment
         writer.I0(model_file, "# Description: " + model.description)
         writer.I0(model_file, "# Group: " + model.group)
@@ -188,10 +196,17 @@ def main():
         writer.I2(model_file, "return u'{}'".format(model.name))
         writer.I0(model_file)
 
+        print("Generating", model.name + "Admin")
+        writer.I0(admin_file, "class " + model.name + "Admin(admin.ModelAdmin):")
+        writer.I1(admin_file, "pass")
+        writer.I0(admin_file)
+        writer.I0(admin_file, "admin.site.register(" + model.name + ", " + model.name + "Admin)")
+        writer.I0(admin_file)
+
     # write enums.py
     print("Generating " + ENUM_FILE + " file...")
     for enum in gen_enums:
-        print("Generating", enum)
+        print("Generating enum", enum.name)
         writer.I0(enum_file, "class " + enum.name + "(Enum):")
         for field in enum.fields:
             writer.I1(enum_file, field.name + " = " + str(field.value) + " # " + field.description)
@@ -199,6 +214,7 @@ def main():
 
     model_file.close()
     enum_file.close()
+    admin_file.close()
 
     print("Model files generated in", TARGET_FOLDER)
 

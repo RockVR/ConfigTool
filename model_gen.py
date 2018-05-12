@@ -4,7 +4,7 @@ import sys, os
 from openpyxl import load_workbook
 from datetime import datetime
 from utils import writer
-from utils.model import Model, ModelField, ModelFieldType
+from utils.model import Model, ModelField, ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
 from utils.enum import Enum, EnumField
 
 COL_2_ROW_1 = 'B1'  # ClassName
@@ -40,7 +40,7 @@ def ParseModelFieldType(field):
         return ModelFieldType.IntegerField
     elif field.startswith('Enum'):
         return ModelFieldType.IntegerField
-    raise Exception('Unknown Field Type ' + field)
+    raise Exception('Unknown field type ' + field)
 
 def ParseModelFieldUnique(field):
     if field == 'None':
@@ -101,6 +101,7 @@ def main():
     MODEL_FILE = 'models.py'
     ENUM_FILE = 'enums.py'
     ADMIN_FILE = 'admin.py'
+    SERIALIZER_FILE = 'serializers.py'
 
     # models.py
     model_file = open(TARGET_FOLDER + MODEL_FILE, 'w')
@@ -119,7 +120,14 @@ def main():
     GenerateHeader(admin_file)
     writer.I0(admin_file, "from django.contrib import admin")
     writer.I0(admin_file, "from .models import *")
-    writer.I0(admin_file, "")
+    writer.I0(admin_file)
+
+    # serializers.py
+    serializer_file = open(TARGET_FOLDER + SERIALIZER_FILE, 'w')
+    GenerateHeader(serializer_file)
+    writer.I0(serializer_file, "from rest_framework import serializers")
+    writer.I0(serializer_file, "from .models import *")
+    writer.I0(serializer_file)
 
     for xls_file in xls_files:
         print("Parsing xls file", xls_file)
@@ -170,8 +178,8 @@ def main():
             # save model to generate
             gen_models.append(model)
 
-    # write models.py & admin.py
-    print("Generating " + MODEL_FILE + " and " + ADMIN_FILE + " file...")
+    # write models.py
+    print("Writing " + MODEL_FILE + " file...")
     for model in gen_models:
         print("Generating model", model.name)
         # model comment
@@ -196,6 +204,9 @@ def main():
         writer.I2(model_file, "return u'{}'".format(model.name))
         writer.I0(model_file)
 
+    # write admin.py
+    print("Writing " + ADMIN_FILE + " file...")
+    for model in gen_models:
         print("Generating", model.name + "Admin")
         writer.I0(admin_file, "class " + model.name + "Admin(admin.ModelAdmin):")
         writer.I1(admin_file, "pass")
@@ -203,8 +214,59 @@ def main():
         writer.I0(admin_file, "admin.site.register(" + model.name + ", " + model.name + "Admin)")
         writer.I0(admin_file)
 
+    # write serializers.py
+    print("Writing " + SERIALIZER_FILE + " file...")
+    pending_models = list(gen_models)
+    written_model_names = set()
+    for model in pending_models:
+        # check if model has relation field
+        related_model_tup = list() # (0: field_name, 1: field_type)
+        for field in model.fields:
+            if field.type == ModelFieldType.OneToOneField or field.type == ModelFieldType.ForeignKey:
+                if field.type == ModelFieldType.OneToOneField:
+                    related_field = ParseOneToOneFieldName(field.origin_type)
+                elif field.type == ModelFieldType.ForeignKey:
+                    related_field = ParseForeignKeyName(field.origin_type)
+                if not related_field:
+                    raise Exception('Parse related field error ' + field.origin_type)
+                tup = (field.name, related_field)
+                related_model_tup.append(tup)
+        # check if all related model is written before
+        meet_all = True
+        for model_tup in related_model_tup:
+            # do not count if related to self
+            if model_tup[1] not in written_model_names and model_tup[1] != model.name:
+                meet_all = False
+                break
+        # can write current model
+        if meet_all:
+            print("Generating", model.name + "Serializer")
+            writer.I0(serializer_file, "class " + model.name + "Serializer(serializers.ModelSerializer):")
+            for model_tup in related_model_tup:
+                # skip if is related to self
+                if model_tup[1] == model.name:
+                    continue
+                # related field serializer should already generated
+                writer.I1(serializer_file, model_tup[0] + " = " + model_tup[1] + "Serializer(read_only=True)")
+            writer.I0(serializer_file)
+            writer.I1(serializer_file, "class Meta:")
+            writer.I2(serializer_file, "model = " + model.name)
+            writer.I2(serializer_file, "fields = [")
+            for field in model.fields:
+                field_name = field.name
+                if field_name == "Id":
+                    field_name = "id"
+                writer.I3(serializer_file, "'{}',".format(field_name))
+            writer.I2(serializer_file, "]")
+            writer.I0(serializer_file)
+            # mark written model
+            written_model_names.add(model.name)
+        else:
+            # push back current model for next visit
+            pending_models.append(model)
+
     # write enums.py
-    print("Generating " + ENUM_FILE + " file...")
+    print("Writing " + ENUM_FILE + " file...")
     for enum in gen_enums:
         print("Generating enum", enum.name)
         writer.I0(enum_file, "class " + enum.name + "(Enum):")
@@ -212,10 +274,13 @@ def main():
             writer.I1(enum_file, field.name + " = " + str(field.value) + " # " + field.description)
         writer.I0(enum_file)
 
+    # close file
     model_file.close()
     enum_file.close()
     admin_file.close()
+    serializer_file.close()
 
-    print("Model files generated in", TARGET_FOLDER)
+    print("Files generated in", TARGET_FOLDER)
+    print("Success!")
 
 main()

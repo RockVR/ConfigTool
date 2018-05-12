@@ -3,6 +3,12 @@
 
 from enum import Enum
 
+def ParseOneToOneFieldName(content):
+    return content[content.index('(') + 1:content.index(')')]
+
+def ParseForeignKeyName(content):
+    return content[content.index('(', content.index('(') + 1) + 1:content.index(')')]
+
 class ModelFieldType(Enum):
     BooleanField = 'BooleanField'
     IntegerField = 'IntegerField'
@@ -43,15 +49,13 @@ class ModelField:
             content = self.__AddDefine(content, 'default=0')
         if self.type == ModelFieldType.OneToOneField:
             # parse related field
-            temp = self.origin_type
-            related_field = temp[temp.index('(') + 1:temp.index(')')]
+            related_field = ParseOneToOneFieldName(self.origin_type)
             content = self.__AddDefine(content, "'{}'".format(related_field))
             content = self.__AddDefine(content, 'on_delete=models.CASCADE')
             content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.name + '_Reverse'))
         if self.type == ModelFieldType.ForeignKey:
             # parse related field
-            temp = self.origin_type
-            related_field = temp[temp.index('(', temp.index('(') + 1) + 1:temp.index(')')]
+            related_field = ParseForeignKeyName(self.origin_type)
             content = self.__AddDefine(content, "'{}'".format(related_field))
             content = self.__AddDefine(content, 'on_delete=models.CASCADE')
             content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.name + '_Reverses'))

@@ -13,7 +13,7 @@ $ pip install openpyxl
 
 ### Generate model files:
 ```
-$ python model_gen.py test/xls/ test/generated/
+$ python model_gen.py
 ```
 
 ### Test in Django project:
@@ -23,9 +23,6 @@ $ cd test
 
 # install Django
 $ pip install -r requirements.txt
-
-# copy generated model files to correct directory
-$ sh cp_files.sh
 
 # test migrations
 $ python django_test/manage.py makemigrations

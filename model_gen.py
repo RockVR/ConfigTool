@@ -2,9 +2,16 @@
 # -*- coding: UTF-8 -*-
 import sys, os
 from datetime import datetime
-from utils import writer, parser
-from utils.model import Model, ModelField, ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
-from utils.enum import Enum, EnumField
+from gen_utils import writer, parser
+from gen_utils.model import ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
+
+MODEL_FILE = 'models.py'
+ENUM_FILE = 'enums.py'
+ADMIN_FILE = 'admin.py'
+SERIALIZER_FILE = 'serializers.py'
+
+XLS_FOLDER = 'test/xls/'
+TARGET_FOLDER = 'test/django_test/app/'
 
 def GenerateHeader(file):
     writer.I0(file, "# This file is auto-generated, please don't modify it directly.")
@@ -14,32 +21,16 @@ def GenerateHeader(file):
     writer.I0(file)
 
 def main():
-    if len(sys.argv) < 2:
-        print("Source file folder is required. Usage:")
-        print("     python model_gen.py source_folder/ # 'source_folder' is a relative path")
-        print()
-        print("Target file folder is optional. Usage:")
-        print("     python model_gen.py source_folder/ target_folder/ # 'target_folder' is a relative path")
-        return
 
-    SOURCE_FOLDER = os.getcwd() + '/' + sys.argv[1]
-    TARGET_FOLDER = SOURCE_FOLDER
-    if len(sys.argv) >= 3:
-        TARGET_FOLDER = os.getcwd() + '/' + sys.argv[2]
-    if not os.path.isdir(TARGET_FOLDER):
-        os.makedirs(TARGET_FOLDER)
-
-    ret = parser.Parse(SOURCE_FOLDER)
+    ret = parser.ParseModel(XLS_FOLDER)
     if not ret:
         # parse failed
         return
 
-    (gen_models, gen_enums) = ret
+    if not os.path.isdir(TARGET_FOLDER):
+        os.makedirs(TARGET_FOLDER)
 
-    MODEL_FILE = 'models.py'
-    ENUM_FILE = 'enums.py'
-    ADMIN_FILE = 'admin.py'
-    SERIALIZER_FILE = 'serializers.py'
+    (gen_models, gen_enums) = ret
 
     # models.py
     model_file = open(TARGET_FOLDER + MODEL_FILE, 'w')

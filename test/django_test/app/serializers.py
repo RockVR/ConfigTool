@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-17 12:57:05
+# Last generate time: 2018-05-17 18:24:14
 
 from rest_framework import serializers
 from .models import *

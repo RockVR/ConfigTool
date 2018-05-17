@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 import os
 from openpyxl import load_workbook
-from utils.model import Model, ModelField, ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
-from utils.enum import Enum, EnumField
+from gen_utils.model import Model, ModelField, ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
+from gen_utils.enum import Enum, EnumField
 
 COL_2_ROW_1 = 'B1'  # ClassName
 COL_2_ROW_2 = 'B2'  # ClassDescription
@@ -60,15 +60,15 @@ def ParseModelFieldEnum(field):
         return enum
     return None
 
-def Parse(source):
+def ParseModel(folder):
     xls_files = list()
-    print("Scanning xls file in", source)
-    for file in os.listdir(source):
+    print("Scanning xls file in", folder)
+    for file in os.listdir(folder):
         if file.endswith(".xlsx") and not file.startswith("~"):
-            xls_files.append(os.path.join(source, file))
+            xls_files.append(os.path.join(folder, file))
 
     if len(xls_files) == 0:
-        print("Could not find xls file in", source)
+        print("Could not find xls file in", folder)
         return False
     print("Found xls files", xls_files)
 
@@ -90,7 +90,9 @@ def Parse(source):
             model = Model(
                 class_name,
                 class_description,
-                class_group)
+                class_group,
+                xls_file,
+                sheet.title)
             # load fields base info
             last_field_name = ''
             for i in range(1, len(sheet[ROW_4])):
@@ -125,3 +127,10 @@ def Parse(source):
             gen_models.append(model)
 
     return (gen_models, gen_enums)
+
+def ParseData(xls_file, sheet_name):
+    wb = load_workbook(xls_file, read_only=True)
+    print("load xls", xls_file)
+    print("load sheet", sheet_name)
+    sheet = wb[sheet_name]
+    print("load sheet", sheet)

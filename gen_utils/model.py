@@ -70,11 +70,13 @@ class ModelField:
         return u'{} = models.{}({})'.format(self.name, self.type.value, content)
 
 class Model:
-    def __init__(self, name, description, group):
+    def __init__(self, name, description, group, xls_name, sheet_name):
         self.name = name
         self.description = description
         self.group = group
         self.fields = list()
+        self.xls_name = xls_name
+        self.sheet_name = sheet_name
 
     def __str__(self):
         return u'Model {}'.format(self.name)

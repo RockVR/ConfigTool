@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-12 17:28:30
+# Last generate time: 2018-05-17 18:24:14
 
 from django.db import models
 
@@ -18,19 +18,19 @@ class GameStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	GameIcon = models.TextField()
+	GameIcon = models.CharField(max_length=255)
 
 	# Description: 玩法资源
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	GameResource = models.TextField(null=True, blank=True)
+	GameResource = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 玩法描述
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	GameDescription = models.TextField(null=True, blank=True)
+	GameDescription = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 最小使用饱食度
 	# Type: int
@@ -78,7 +78,7 @@ class GameStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	LogicGameParam = models.TextField()
+	LogicGameParam = models.CharField(max_length=255)
 
 	def __str__(self):
 		return u'GameStatic'
@@ -150,7 +150,7 @@ class FoodStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	FoodIconName = models.TextField()
+	FoodIconName = models.CharField(max_length=255)
 
 	def __str__(self):
 		return u'FoodStatic'
@@ -168,19 +168,19 @@ class CatStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CatBaseResource = models.TextField()
+	CatBaseResource = models.CharField(max_length=255)
 
 	# Description: None
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CatWholeBodyMeshName = models.TextField()
+	CatWholeBodyMeshName = models.CharField(max_length=255)
 
 	# Description: None
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CatBodyNotEarMeshName = models.TextField()
+	CatBodyNotEarMeshName = models.CharField(max_length=255)
 
 	# Description: 猫部分资源
 	# Type: array(string)
@@ -192,25 +192,25 @@ class CatStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	IdleBehaviorParam = models.TextField(null=True, blank=True)
+	IdleBehaviorParam = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 喂食行为参数
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	FeedBehaviorParam = models.TextField(null=True, blank=True)
+	FeedBehaviorParam = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 激光笔行为参数
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	LazerBehaviorParam = models.TextField(null=True, blank=True)
+	LazerBehaviorParam = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 吹风机行为参数
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	DryerBehaviorParam = models.TextField(null=True, blank=True)
+	DryerBehaviorParam = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 健康值
 	# Type: int
@@ -378,7 +378,7 @@ class AudioStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	Describe = models.TextField(null=True, blank=True)
+	Describe = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 音效类型
 	# Type: enum(AudioType, Auido2D(2D音效), Audio3D(3D音效))
@@ -390,7 +390,7 @@ class AudioStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	AudioName = models.TextField()
+	AudioName = models.CharField(max_length=255)
 
 	# Description: 音效音量
 	# Type: float
@@ -582,13 +582,13 @@ class LanguageStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	LanguageEngInfo = models.TextField(null=True, blank=True)
+	LanguageEngInfo = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 中文
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	LanguageChnInfo = models.TextField(null=True, blank=True)
+	LanguageChnInfo = models.CharField(max_length=255, null=True, blank=True)
 
 	def __str__(self):
 		return u'LanguageStatic'
@@ -642,7 +642,7 @@ class PropStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	PropIcon = models.TextField()
+	PropIcon = models.CharField(max_length=255)
 
 	# Description: 道具叠加数
 	# Type: int
@@ -948,7 +948,7 @@ class CardStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CardRes = models.TextField()
+	CardRes = models.CharField(max_length=255)
 
 	# Description: 卡片星级
 	# Type: int
@@ -1002,13 +1002,13 @@ class CostumeStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CostumeResource = models.TextField()
+	CostumeResource = models.CharField(max_length=255)
 
 	# Description: 服装挂点
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CostumeHangPoint = models.TextField()
+	CostumeHangPoint = models.CharField(max_length=255)
 
 	# Description: 服装名字
 	# Type: id(LanguageStatic)
@@ -1038,7 +1038,7 @@ class CostumeStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CostumeIconName = models.TextField()
+	CostumeIconName = models.CharField(max_length=255)
 
 	def __str__(self):
 		return u'CostumeStatic'
@@ -1050,19 +1050,19 @@ class AnimationStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	AnimationName = models.TextField()
+	AnimationName = models.CharField(max_length=255)
 
 	# Description: 动画状态名字
 	# Type: string
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	AnimationStateName = models.TextField()
+	AnimationStateName = models.CharField(max_length=255)
 
 	# Description: 动画参数名字
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	AnimationParamName = models.TextField(null=True, blank=True)
+	AnimationParamName = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 动画参数数值
 	# Type: float
@@ -1074,7 +1074,7 @@ class AnimationStatic(models.Model):
 	# Type: string
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	AnimationParam2Name = models.TextField(null=True, blank=True)
+	AnimationParam2Name = models.CharField(max_length=255, null=True, blank=True)
 
 	# Description: 动画参数2数值
 	# Type: float

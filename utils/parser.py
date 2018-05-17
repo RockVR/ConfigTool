@@ -23,7 +23,7 @@ def ParseModelFieldType(field):
     elif field == 'bool':
         return ModelFieldType.BooleanField
     elif field == 'string':
-        return ModelFieldType.TextField
+        return ModelFieldType.CharField
     elif field == 'int':
         return ModelFieldType.IntegerField
     elif field == 'float':

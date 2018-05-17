@@ -13,6 +13,7 @@ class ModelFieldType(Enum):
     BooleanField = 'BooleanField'
     IntegerField = 'IntegerField'
     FloatField = 'FloatField'
+    CharField = 'CharField'
     TextField = 'TextField'
     OneToOneField = 'OneToOneField'
     ForeignKey = 'ForeignKey'
@@ -47,6 +48,8 @@ class ModelField:
             content = self.__AddDefine(content, 'default=0')
         if self.type == ModelFieldType.FloatField:
             content = self.__AddDefine(content, 'default=0')
+        if self.type == ModelFieldType.CharField:
+            content = self.__AddDefine(content, 'max_length=255')
         if self.type == ModelFieldType.OneToOneField:
             # parse related field
             related_field = ParseOneToOneFieldName(self.origin_type)

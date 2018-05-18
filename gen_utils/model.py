@@ -2,12 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from enum import Enum
-
-def ParseOneToOneFieldName(content):
-    return content[content.index('(') + 1:content.index(')')]
-
-def ParseForeignKeyName(content):
-    return content[content.index('(', content.index('(') + 1) + 1:content.index(')')]
+from gen_utils import parser
 
 class ModelFieldType(Enum):
     BooleanField = 'BooleanField'
@@ -52,13 +47,13 @@ class ModelField:
             content = self.__AddDefine(content, 'max_length=255')
         if self.type == ModelFieldType.OneToOneField:
             # parse related field
-            related_field = ParseOneToOneFieldName(self.origin_type)
+            related_field = parser.ParseOneToOneFieldName(self.origin_type)
             content = self.__AddDefine(content, "'{}'".format(related_field))
             content = self.__AddDefine(content, 'on_delete=models.CASCADE')
             content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.name + '_Reverse'))
         if self.type == ModelFieldType.ForeignKey:
             # parse related field
-            related_field = ParseForeignKeyName(self.origin_type)
+            related_field = parser.ParseForeignKeyName(self.origin_type)
             content = self.__AddDefine(content, "'{}'".format(related_field))
             content = self.__AddDefine(content, 'on_delete=models.CASCADE')
             content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.name + '_Reverses'))

@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 import os
 from openpyxl import load_workbook
-from gen_utils.model import Model, ModelField, ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
+from gen_utils.model import Model, ModelField, ModelFieldType
 from gen_utils.enum import Enum, EnumField
 
 COL_2_ROW_1 = 'B1'  # ClassName
@@ -16,6 +16,15 @@ ROW_7 = '7'         # Uniqueness
 ROW_8 = '8'         # Required
 ROW_9 = '9'         # Server
 ROW_10 = '10'       # Client
+
+COL_2 = 'B'         # Id
+DATA_START_ROW = 11
+
+def ParseOneToOneFieldName(content):
+    return content[content.index('(') + 1:content.index(')')]
+
+def ParseForeignKeyName(content):
+    return content[content.index('(', content.index('(') + 1) + 1:content.index(')')]
 
 def ParseModelFieldType(field):
     if field == 'id':
@@ -130,7 +139,23 @@ def ParseModel(folder):
 
 def ParseData(xls_file, sheet_name):
     wb = load_workbook(xls_file, read_only=True)
-    print("load xls", xls_file)
-    print("load sheet", sheet_name)
     sheet = wb[sheet_name]
-    print("load sheet", sheet)
+    data = list()
+    # load field name
+    field_names = list()
+    for i in range(1, len(sheet[ROW_4])):
+        field_names.append(sheet[ROW_4][i].value)
+    data.append(field_names)
+    # # load field type
+    # field_types = list()
+    # for i in range(1, len(sheet[ROW_6])):
+    #     field_types.append(sheet[ROW_6][i].value)
+    # data.append(field_types)
+    # load data row
+    for row in sheet.iter_rows(min_row=DATA_START_ROW):
+        row_data = list()
+        for i in range(1, len(row)):
+            row_data.append(row[i].value)
+        data.append(row_data)
+
+    return data

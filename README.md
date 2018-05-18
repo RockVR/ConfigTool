@@ -13,6 +13,7 @@ $ pip install openpyxl
 
 ### Generate model files:
 ```
+# set XLS_FOLDER and TARGET_FOLDER
 $ python model_gen.py
 ```
 
@@ -26,4 +27,21 @@ $ pip install -r requirements.txt
 
 # test migrations
 $ python django_test/manage.py makemigrations
+$ python django_test/manage.py migrate
+```
+
+### Upsert data to Django db:
+```
+# in test folder
+# copy required scripts to project folder
+$ sh cp_scripts.sh
+
+# go to project folder
+$ cd django_test
+
+# run django shell
+$ python manage.py shell
+
+# upsert data
+>> exec(open('data_gen.py').read())
 ```

@@ -3,7 +3,7 @@
 import sys, os
 from datetime import datetime
 from gen_utils import writer, parser
-from gen_utils.model import ModelFieldType, ParseOneToOneFieldName, ParseForeignKeyName
+from gen_utils.model import ModelFieldType
 
 MODEL_FILE = 'models.py'
 ENUM_FILE = 'enums.py'
@@ -104,9 +104,9 @@ def main():
         for field in model.fields:
             if field.type == ModelFieldType.OneToOneField or field.type == ModelFieldType.ForeignKey:
                 if field.type == ModelFieldType.OneToOneField:
-                    related_field = ParseOneToOneFieldName(field.origin_type)
+                    related_field = parser.ParseOneToOneFieldName(field.origin_type)
                 elif field.type == ModelFieldType.ForeignKey:
-                    related_field = ParseForeignKeyName(field.origin_type)
+                    related_field = parser.ParseForeignKeyName(field.origin_type)
                 if not related_field:
                     raise Exception('Parse related field error ' + field.origin_type)
                 tup = (field.name, related_field)

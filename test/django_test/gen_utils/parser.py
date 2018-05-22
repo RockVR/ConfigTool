@@ -123,6 +123,7 @@ def ParseModel(folder):
                 last_field_name = field_name
                 # create field instance
                 field = ModelField(
+                    model,
                     field_type,
                     field_origin_type,
                     field_name,
@@ -134,6 +135,31 @@ def ParseModel(folder):
                 model.AddField(field)
             # save model to generate
             gen_models.append(model)
+
+    # fill foreign keys in correct position
+    for model in gen_models:
+        foreign_key_fields = list()
+        for field in model.fields:
+            if field.type == ModelFieldType.ForeignKey:
+                foreign_key_fields.append(field)
+        # remove wrong position
+        for field in foreign_key_fields:
+            model.fields.remove(field)
+        # add to correct position
+        for field in foreign_key_fields:
+            target_model_name = ParseForeignKeyName(field.origin_type)
+            target_model = None
+            for search_model in gen_models:
+                if search_model.name == target_model_name:
+                    target_model = search_model
+                    break
+            if not target_model:
+                raise Exception('Cannot find model ' + target_model_name)
+            if target_model.name != field.sourceModel.name and not field.foreignKey:
+                field.foreignKey = field.name
+                # update field infomation
+                field.name = field.sourceModel.name
+            target_model.AddField(field)
 
     return (gen_models, gen_enums)
 

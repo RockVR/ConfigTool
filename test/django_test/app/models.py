@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-18 13:51:01
+# Last generate time: 2018-05-23 02:48:07
 
 from django.db import models
 
@@ -74,6 +74,24 @@ class GameStatic(models.Model):
 	# Server: True, Client: True
 	MaxExpNum = models.IntegerField(default=0)
 
+	# Description: 增加金币间隔（秒）
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GoldPerTime = models.IntegerField(default=0)
+
+	# Description: 每次增加金币
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	AddGoldNum = models.IntegerField(default=0)
+
+	# Description: 每日可获得金币上限
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	MaxGoldNum = models.IntegerField(default=0)
+
 	# Description: 预留参数Json 根据玩法的不同参数不同
 	# Type: string
 	# Unique: False, Required: True
@@ -83,11 +101,113 @@ class GameStatic(models.Model):
 	def __str__(self):
 		return u'GameStatic'
 
+# Description: 角色动态表
+# Group: ActorLogicMobile
+class ActorMobile(models.Model):
+	# Description: 角色名字
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	ActorName = models.CharField(max_length=255)
+
+	# Description: 金币
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	Coin = models.IntegerField(default=0)
+
+	# Description: 薄荷金币
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	Mint = models.IntegerField(default=0)
+
+	# Description: 经验值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	Exp = models.IntegerField(default=0)
+
+	# Description: 等级
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	Level = models.IntegerField(default=0)
+
+	# Description: 开启时间
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	BeginDay = models.IntegerField(default=0)
+
+	# Description: 吹风机增加经验值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GameLogicDrierAddExp = models.IntegerField(default=0)
+
+	# Description: 激光笔增加经验值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GameLogicLaserAddExp = models.IntegerField(default=0)
+
+	# Description: 吹风机增加心情值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GameLogicDrierAddHappy = models.IntegerField(default=0)
+
+	# Description: 激光笔增加心情值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GameLogicLaserAddHappy = models.IntegerField(default=0)
+
+	# Description: 每日任务开始时间
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	DailyTaskGetTime = models.CharField(max_length=255)
+
+	# Description: 购买药瓶记录
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	BuyMedicineNum = models.IntegerField(default=0)
+
+	# Description: 角色唯一ID
+	# Type: string
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	ActorID = models.CharField(max_length=255, null=True, blank=True)
+
+	def __str__(self):
+		return u'ActorMobile'
+
+# Description: 猫拥有礼物表
+# Group: ActorLogicMobile
+class GiftMobile(models.Model):
+	# Description: 金币数
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CoinNum = models.IntegerField(default=0)
+
+	# Description: 卡片id
+	# Type: bool
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CardStaticID = models.BooleanField(default=False)
+
+	def __str__(self):
+		return u'GiftMobile'
+
 # Description: 食物静态表
 # Group: CatLogicStatic
 class FoodStatic(models.Model):
 	# Description: 猫食物类型
-	# Type: enum(EnumFoodType,CatFood(猫粮),GreenFood(绿叶菜),Banana(香蕉),Fish(鱼干),Cheese(奶酪),CatCan(猫罐头),MedicineOne(一号药瓶),MedicineTwo(二号药瓶))
+	# Type: enum(EnumFoodType,CatFood(猫粮),GreenFood(蔬菜),Banana(香蕉),Fish(鱼干),Cheese(奶酪),CatCan(猫罐头),MedicineOne(一号药瓶),MedicineTwo(二号药瓶))
 	# Unique: False, Required: True
 	# Server: True, Client: True
 	FoodType = models.IntegerField(default=0)
@@ -154,6 +274,48 @@ class FoodStatic(models.Model):
 
 	def __str__(self):
 		return u'FoodStatic'
+
+# Description: 任务事件动态表
+# Group: ActorLogicMobile
+class TaskEventMobile(models.Model):
+	# Description: 事件类型
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	EventType = models.IntegerField(default=0)
+
+	# Description: 事件参数
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	EventParam = models.IntegerField(default=0)
+
+	def __str__(self):
+		return u'TaskEventMobile'
+
+# Description: 任务动态表
+# Group: ActorLogicMobile
+class TaskOwnMobile(models.Model):
+	# Description: 任务类型
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	TaskType = models.IntegerField(default=0)
+
+	# Description: 任务ID
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	TaskID = models.IntegerField(default=0)
+
+	# Description: 任务完成标记
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	TaskFinish = models.IntegerField(default=0)
+
+	def __str__(self):
+		return u'TaskOwnMobile'
 
 # Description: 猫静态表
 # Group: CatLogicStatic
@@ -306,7 +468,7 @@ class CatStatic(models.Model):
 	# Type: id(CatStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	NexLevelID = models.OneToOneField('CatStatic', on_delete=models.CASCADE, related_name='NexLevelID_Reverse', null=True, blank=True)
+	NexLevelID = models.ForeignKey('CatStatic', on_delete=models.CASCADE, related_name='PrevLevelID', null=True, blank=True)
 
 	def __str__(self):
 		return u'CatStatic'
@@ -370,6 +532,30 @@ class WeightAddStatic(models.Model):
 
 	def __str__(self):
 		return u'WeightAddStatic'
+
+# Description: 猫音效表
+# Group: CatLogicStatic
+class CatSoundStatic(models.Model):
+	# Description: 猫ID
+	# Type: array(int)
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CatID = models.TextField()
+
+	# Description: 动画名称
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	AnimationName = models.CharField(max_length=255)
+
+	# Description: 音效名称
+	# Type: array(string)
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	SoundNameArray = models.TextField()
+
+	def __str__(self):
+		return u'CatSoundStatic'
 
 # Description: 音效静态表
 # Group: InitializeStatic
@@ -440,6 +626,12 @@ class GoldMintShopStatic(models.Model):
 	# Server: True, Client: True
 	ShopItemPrice = models.IntegerField(default=0, null=True, blank=True)
 
+	# Description: 物品id
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	ProductID = models.CharField(max_length=255)
+
 	# Description: 数量
 	# Type: int
 	# Unique: False, Required: False
@@ -451,6 +643,18 @@ class GoldMintShopStatic(models.Model):
 	# Unique: False, Required: False
 	# Server: True, Client: True
 	ShopItemSequence = models.IntegerField(default=0, null=True, blank=True)
+
+	# Description: 中文价格
+	# Type: string
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	ShopItemCNPrice = models.CharField(max_length=255, null=True, blank=True)
+
+	# Description: 英文价格
+	# Type: string
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	ShopItemENPrice = models.CharField(max_length=255, null=True, blank=True)
 
 	def __str__(self):
 		return u'GoldMintShopStatic'
@@ -498,19 +702,19 @@ class UserGuideStatic(models.Model):
 	# Type: array(id(UserGuideConditionStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	UserGuideCondition = models.ForeignKey('UserGuideConditionStatic', on_delete=models.CASCADE, related_name='UserGuideCondition_Reverses')
+	UserGuideCondition = models.ManyToManyField('UserGuideConditionStatic', related_name='UserGuideCondition_Related')
 
 	# Description: 用户引导事件
 	# Type: array(id(UserGuideEventStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	UserGuideEvent = models.ForeignKey('UserGuideEventStatic', on_delete=models.CASCADE, related_name='UserGuideEvent_Reverses')
+	UserGuideEvent = models.ManyToManyField('UserGuideEventStatic', related_name='UserGuideEvent_Related')
 
 	# Description: 下一个引导列表
 	# Type: array(id(UserGuideStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	NextGuideID = models.ForeignKey('UserGuideStatic', on_delete=models.CASCADE, related_name='NextGuideID_Reverses')
+	NextGuideID = models.ManyToManyField('UserGuideStatic', related_name='PrevGuideID')
 
 	def __str__(self):
 		return u'UserGuideStatic'
@@ -552,7 +756,7 @@ class UserGuideEventStatic(models.Model):
 	# Type: array(id(UserGuideEventStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	NextGuideEventIDArray = models.ForeignKey('UserGuideEventStatic', on_delete=models.CASCADE, related_name='NextGuideEventIDArray_Reverses')
+	NextGuideEventIDArray = models.ManyToManyField('UserGuideEventStatic', related_name='PrevGuideEventIDArray')
 
 	def __str__(self):
 		return u'UserGuideEventStatic'
@@ -574,6 +778,108 @@ class CatLevelStatic(models.Model):
 
 	def __str__(self):
 		return u'CatLevelStatic'
+
+# Description: 猫拥有动态表
+# Group: CatLogicMobile
+class CatOwnMobile(models.Model):
+	# Description: 拥有类型
+	# Type: enum(EnumOwnItemType,Food(粮食),Costume(服装),Grass(猫草),Toy(玩具),Card(卡片))
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	OwnItemType = models.IntegerField(default=0)
+
+	# Description: 物品ID
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	OwnItemID = models.IntegerField(default=0)
+
+	# Description: 是否装备
+	# Type: bool
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	EuipOrNot = models.BooleanField(default=False)
+
+	# Description: 物品数量
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	OwnNum = models.IntegerField(default=0)
+
+	# Description: 属于猫的ID
+	# Type: int
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	CatID = models.IntegerField(default=0, null=True, blank=True)
+
+	def __str__(self):
+		return u'CatOwnMobile'
+
+# Description: 猫动态表
+# Group: CatLogicMobile
+class CatMobile(models.Model):
+	# Description: None
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CatStaticID = models.IntegerField(default=0)
+
+	# Description: 猫的名字
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CatName = models.CharField(max_length=255)
+
+	# Description: 猫的年龄
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CatAge = models.IntegerField(default=0)
+
+	# Description: 等级
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	LevelPoint = models.IntegerField(default=0)
+
+	# Description: 心情值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	HappyPoint = models.IntegerField(default=0)
+
+	# Description: 饱食度
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	HungryPoint = models.IntegerField(default=0)
+
+	# Description: 健康值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	HealthPoint = models.IntegerField(default=0)
+
+	# Description: 经验值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	ExpPoint = models.IntegerField(default=0)
+
+	# Description: 体重值
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	WeightPoint = models.IntegerField(default=0)
+
+	# Description: 猫的生日
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CatBirthday = models.CharField(max_length=255)
+
+	def __str__(self):
+		return u'CatMobile'
 
 # Description: 多国语言静态表
 # Group: InitializeStatic
@@ -597,7 +903,7 @@ class LanguageStatic(models.Model):
 # Group: InitializeStatic
 class DialogStatic(models.Model):
 	# Description: 对话框类型
-	# Type: enum(EnumDialogType,Hat(帽子),Neckcloth(领带),Glass(眼镜))
+	# Type: enum(EnumDialogType,Hat(帽子),Neckcloth(领带),Glass(眼镜),CostumeClearAllFashionDialog(换衣间时装清除))
 	# Unique: False, Required: True
 	# Server: True, Client: True
 	DialogType = models.IntegerField(default=0)
@@ -606,13 +912,13 @@ class DialogStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	DialogTitle = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='DialogTitle_Reverse')
+	DialogTitle = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DialogTitle_Related')
 
 	# Description: 内容
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	DialogInfo = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='DialogInfo_Reverse')
+	DialogInfo = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DialogInfo_Related')
 
 	def __str__(self):
 		return u'DialogStatic'
@@ -630,13 +936,13 @@ class PropStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	PropName = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='PropName_Reverse')
+	PropName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='PropName_Related')
 
 	# Description: 道具描述
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	PropDescirption = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='PropDescirption_Reverse')
+	PropDescirption = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='PropDescirption_Related')
 
 	# Description: 道具图标
 	# Type: string
@@ -662,6 +968,30 @@ class PropStatic(models.Model):
 	# Server: True, Client: True
 	Mint = models.IntegerField(default=0)
 
+	# Description: 最小时间
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	TimeMin = models.IntegerField(default=0)
+
+	# Description: 最大时间
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	TimeMax = models.IntegerField(default=0)
+
+	# Description: 最小金币
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GoldMin = models.IntegerField(default=0)
+
+	# Description: 最大金币
+	# Type: int
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	GoldMax = models.IntegerField(default=0)
+
 	def __str__(self):
 		return u'PropStatic'
 
@@ -672,7 +1002,7 @@ class DailyTaskStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	DailyTaskName = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='DailyTaskName_Reverse', null=True, blank=True)
+	DailyTaskName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DailyTaskName_Related', null=True, blank=True)
 
 	# Description: 出现概率（1-100）
 	# Type: int
@@ -764,23 +1094,11 @@ class SevenDaySignStatic(models.Model):
 # Description: 猫路线静态表
 # Group: CardStaticGroup
 class CatPathStatic(models.Model):
-	# Description: 地点名字
-	# Type: id(LanguageStatic)
-	# Unique: False, Required: True
-	# Server: True, Client: True
-	PathName = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='PathName_Reverse')
-
-	# Description: 地点描述
-	# Type: id(LanguageStatic)
-	# Unique: False, Required: True
-	# Server: True, Client: True
-	PathDescirption = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='PathDescirption_Reverse')
-
 	# Description: 激活条件-猫草（ID可复选）
-	# Type: array(int)
+	# Type: array(id(PropStatic))
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerGrassID = models.TextField(null=True, blank=True)
+	TriggerGrassID = models.ManyToManyField('PropStatic', related_name='TriggerGrassID_Related', null=True, blank=True)
 
 	# Description: 激活条件-最小健康值
 	# Type: int
@@ -807,16 +1125,16 @@ class CatPathStatic(models.Model):
 	TriggerCatLevelMax = models.IntegerField(default=0)
 
 	# Description: 激活基础卡包
-	# Type: array(int)
+	# Type: array(id(CardBagStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	TriggerBaseCardBagID = models.TextField()
+	TriggerBaseCardBagID = models.ManyToManyField('CardBagStatic', related_name='TriggerBaseCardBagID_Related')
 
 	# Description: 激活稀有卡包
-	# Type: array(int)
-	# Unique: False, Required: True
+	# Type: array(id(CardBagStatic))
+	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerRareCardBagID = models.TextField()
+	TriggerRareCardBagID = models.ManyToManyField('CardBagStatic', related_name='TriggerRareCardBagID_Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 1
 	# Type: int
@@ -831,10 +1149,10 @@ class CatPathStatic(models.Model):
 	TriggerCardProbability1 = models.IntegerField(default=0, null=True, blank=True)
 
 	# Description: 激活玩具卡包 1
-	# Type: int
+	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID1 = models.IntegerField(default=0, null=True, blank=True)
+	TriggerToyCardBagID1 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID1_Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 2
 	# Type: int
@@ -849,10 +1167,10 @@ class CatPathStatic(models.Model):
 	TriggerCardProbability2 = models.IntegerField(default=0, null=True, blank=True)
 
 	# Description: 激活玩具卡包 2
-	# Type: int
+	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID2 = models.IntegerField(default=0, null=True, blank=True)
+	TriggerToyCardBagID2 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID2_Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 3
 	# Type: int
@@ -867,10 +1185,10 @@ class CatPathStatic(models.Model):
 	TriggerCardProbability3 = models.IntegerField(default=0, null=True, blank=True)
 
 	# Description: 激活玩具卡包 3
-	# Type: int
+	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID3 = models.IntegerField(default=0, null=True, blank=True)
+	TriggerToyCardBagID3 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID3_Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 4
 	# Type: int
@@ -885,10 +1203,46 @@ class CatPathStatic(models.Model):
 	TriggerCardProbability4 = models.IntegerField(default=0, null=True, blank=True)
 
 	# Description: 激活玩具卡包 4
+	# Type: id(CardBagStatic)
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	TriggerToyCardBagID4 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID4_Related', null=True, blank=True)
+
+	# Description: 激活玩具卡包 玩具id 5
 	# Type: int
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID4 = models.IntegerField(default=0, null=True, blank=True)
+	TriggerToyCardConditionID5 = models.IntegerField(default=0, null=True, blank=True)
+
+	# Description: 激活玩具卡包5概率
+	# Type: int
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	TriggerCardProbability5 = models.IntegerField(default=0, null=True, blank=True)
+
+	# Description: 激活玩具卡包 5
+	# Type: id(CardBagStatic)
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	TriggerToyCardBagID5 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID5_Related', null=True, blank=True)
+
+	# Description: 激活玩具卡包 玩具id 6
+	# Type: int
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	TriggerToyCardConditionID6 = models.IntegerField(default=0, null=True, blank=True)
+
+	# Description: 激活玩具卡包6概率
+	# Type: int
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	TriggerCardProbability6 = models.IntegerField(default=0, null=True, blank=True)
+
+	# Description: 激活玩具卡包 6
+	# Type: id(CardBagStatic)
+	# Unique: False, Required: False
+	# Server: True, Client: True
+	TriggerToyCardBagID6 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID6_Related', null=True, blank=True)
 
 	def __str__(self):
 		return u'CatPathStatic'
@@ -908,12 +1262,6 @@ class CardBagStatic(models.Model):
 	# Server: True, Client: True
 	CardBagProbability = models.IntegerField(default=0)
 
-	# Description: 卡包描述
-	# Type: id(LanguageStatic)
-	# Unique: False, Required: True
-	# Server: True, Client: True
-	CardBagDescirption = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='CardBagDescirption_Reverse')
-
 	def __str__(self):
 		return u'CardBagStatic'
 
@@ -924,25 +1272,13 @@ class CardStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CardBagID = models.OneToOneField('CardBagStatic', on_delete=models.CASCADE, related_name='CardBagID_Reverse')
+	CardBagID = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='CardBagID_Related')
 
 	# Description: 卡权重
 	# Type: int
 	# Unique: False, Required: True
 	# Server: True, Client: True
 	CardProbability = models.IntegerField(default=0)
-
-	# Description: 卡片名字
-	# Type: id(LanguageStatic)
-	# Unique: False, Required: True
-	# Server: True, Client: True
-	CardName = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='CardName_Reverse')
-
-	# Description: 卡片描述
-	# Type: id(LanguageStatic)
-	# Unique: False, Required: True
-	# Server: True, Client: True
-	CardDescirption = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='CardDescirption_Reverse')
 
 	# Description: 卡片资源
 	# Type: string
@@ -980,6 +1316,48 @@ class ConstStatic(models.Model):
 	# Server: True, Client: True
 	MaxRestoreCardNum = models.IntegerField(default=0)
 
+	# Description: ar房间背景音乐
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	BgSoundName_ARRoom = models.CharField(max_length=255)
+
+	# Description: 3D房间背景音乐
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	BgSoundName_3DRoom = models.CharField(max_length=255)
+
+	# Description: 试衣间背景音乐
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	BgSoundName_FittingRoom = models.CharField(max_length=255)
+
+	# Description: 获得金币音效
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CommonSound_GetCoin = models.CharField(max_length=255)
+
+	# Description: 获得卡片音效
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CommonSound_GetCard = models.CharField(max_length=255)
+
+	# Description: 打开界面音效
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CommonSound_OpenView = models.CharField(max_length=255)
+
+	# Description: 获得超级卡片音效
+	# Type: string
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CommonSound_GetSunperCard = models.CharField(max_length=255)
+
 	def __str__(self):
 		return u'ConstStatic'
 
@@ -987,7 +1365,7 @@ class ConstStatic(models.Model):
 # Group: CatLogicStatic
 class CostumeStatic(models.Model):
 	# Description: 时装类型
-	# Type: enum(EnumCostumeType,Hat(帽子),Neckcloth(领带),Glass(眼镜))
+	# Type: enum(EnumCostumeType,Hat(帽子),Neckcloth(领带),Glass(眼镜),Hair(毛色))
 	# Unique: False, Required: True
 	# Server: True, Client: True
 	CostumeType = models.IntegerField(default=0)
@@ -1014,7 +1392,7 @@ class CostumeStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CostumeName = models.OneToOneField('LanguageStatic', on_delete=models.CASCADE, related_name='CostumeName_Reverse')
+	CostumeName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='CostumeName_Related')
 
 	# Description: 服装魅力值
 	# Type: int
@@ -1039,6 +1417,12 @@ class CostumeStatic(models.Model):
 	# Unique: False, Required: True
 	# Server: True, Client: True
 	CostumeIconName = models.CharField(max_length=255)
+
+	# Description: 服装对应猫咪ID
+	# Type: array(id(CatStatic))
+	# Unique: False, Required: True
+	# Server: True, Client: True
+	CostumeMatchedCat = models.ManyToManyField('CatStatic', related_name='CostumeMatchedCat_Related')
 
 	def __str__(self):
 		return u'CostumeStatic'

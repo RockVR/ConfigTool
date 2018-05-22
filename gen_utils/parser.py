@@ -20,10 +20,10 @@ ROW_10 = '10'       # Client
 COL_2 = 'B'         # Id
 DATA_START_ROW = 11
 
-def ParseOneToOneFieldName(content):
+def ParseForeignKeyName(content):
     return content[content.index('(') + 1:content.index(')')]
 
-def ParseForeignKeyName(content):
+def ParseManyToManyFieldName(content):
     return content[content.index('(', content.index('(') + 1) + 1:content.index(')')]
 
 def ParseModelFieldType(field):
@@ -38,9 +38,9 @@ def ParseModelFieldType(field):
     elif field == 'float':
         return ModelFieldType.FloatField
     elif field.startswith('id('):
-        return ModelFieldType.OneToOneField
-    elif field.startswith('array(id('):
         return ModelFieldType.ForeignKey
+    elif field.startswith('array(id('):
+        return ModelFieldType.ManyToManyField
     elif field.startswith('array('):
         return ModelFieldType.TextField
     elif field.startswith('enum('):

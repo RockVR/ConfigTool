@@ -1,0 +1,17 @@
+ActorMobile				角色静态表
+
+AudioStatic 				音效资源配置表
+
+CatMobile				猫动态表 包括时装 食物等
+
+CatStatic				猫静态表
+
+ConstStatic				枚举类型预设表
+
+CostumStatic				猫服装静态表
+
+FoodStatic				猫食物表
+
+LanguageStatic 				多国语言ID对仗表
+
+ResourceCommonMobile			资源加载列表

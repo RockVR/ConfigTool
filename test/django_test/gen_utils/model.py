@@ -10,8 +10,8 @@ class ModelFieldType(Enum):
     FloatField = 'FloatField'
     CharField = 'CharField'
     TextField = 'TextField'
-    OneToOneField = 'OneToOneField'
     ForeignKey = 'ForeignKey'
+    ManyToManyField = 'ManyToManyField'
 
 class ModelField:
 
@@ -35,6 +35,18 @@ class ModelField:
         ret += part
         return ret
 
+    def __GetRelatedName(self):
+        related_name = self.name + '_Related'
+        if 'Next' in self.name:
+            related_name = self.name.replace('Next', 'Prev')
+        elif 'Nex' in self.name:
+            related_name = self.name.replace('Nex', 'Prev')
+        elif 'Prev' in self.name:
+            related_name = self.name.replace('Prev', 'Next')
+        elif 'Pre' in self.name:
+            related_name = self.name.replace('Pre', 'Next')
+        return related_name
+
     def FieldDefine(self):
         content = ''
         if self.type == ModelFieldType.BooleanField:
@@ -45,18 +57,17 @@ class ModelField:
             content = self.__AddDefine(content, 'default=0')
         if self.type == ModelFieldType.CharField:
             content = self.__AddDefine(content, 'max_length=255')
-        if self.type == ModelFieldType.OneToOneField:
-            # parse related field
-            related_field = parser.ParseOneToOneFieldName(self.origin_type)
-            content = self.__AddDefine(content, "'{}'".format(related_field))
-            content = self.__AddDefine(content, 'on_delete=models.CASCADE')
-            content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.name + '_Reverse'))
         if self.type == ModelFieldType.ForeignKey:
             # parse related field
             related_field = parser.ParseForeignKeyName(self.origin_type)
             content = self.__AddDefine(content, "'{}'".format(related_field))
             content = self.__AddDefine(content, 'on_delete=models.CASCADE')
-            content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.name + '_Reverses'))
+            content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.__GetRelatedName()))
+        if self.type == ModelFieldType.ManyToManyField:
+            # parse related field
+            related_field = parser.ParseManyToManyFieldName(self.origin_type)
+            content = self.__AddDefine(content, "'{}'".format(related_field))
+            content = self.__AddDefine(content, 'related_name=' + "'{}'".format(self.__GetRelatedName()))
         if self.unique:
             content = self.__AddDefine(content, 'unique=True')
         # BooleanField do not accept null values

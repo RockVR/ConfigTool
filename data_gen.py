@@ -23,11 +23,11 @@ def main():
         # check if model has relation field
         related_model_tup = list() # (0: field_name, 1: field_type)
         for field in model.fields:
-            if field.type == ModelFieldType.OneToOneField or field.type == ModelFieldType.ForeignKey:
-                if field.type == ModelFieldType.OneToOneField:
-                    related_field = parser.ParseOneToOneFieldName(field.origin_type)
-                elif field.type == ModelFieldType.ForeignKey:
+            if field.type == ModelFieldType.ForeignKey or field.type == ModelFieldType.ManyToManyField:
+                if field.type == ModelFieldType.ForeignKey:
                     related_field = parser.ParseForeignKeyName(field.origin_type)
+                elif field.type == ModelFieldType.ManyToManyField:
+                    related_field = parser.ParseManyToManyFieldName(field.origin_type)
                 if not related_field:
                     raise Exception('Parse related field error ' + field.origin_type)
                 tup = (field.name, related_field)
@@ -87,8 +87,8 @@ def main():
                             storage_value = bool(value)
                         elif field.type == ModelFieldType.FloatField:
                             storage_value = float(value)
-                        elif field.type == ModelFieldType.OneToOneField:
-                            related_field = parser.ParseOneToOneFieldName(field.origin_type)
+                        elif field.type == ModelFieldType.ForeignKey:
+                            related_field = parser.ParseForeignKeyName(field.origin_type)
                             RelatedModelClass = apps.get_model(APP_LABEL, related_field)
                             # find related record
                             related_record = RelatedModelClass.objects.filter(id=storage_value).first()
@@ -99,8 +99,8 @@ def main():
                                     pending = True
                                 else:
                                     raise Exception('No related field model data ' + related_field)
-                        elif field.type == ModelFieldType.ForeignKey:
-                            related_field = parser.ParseForeignKeyName(field.origin_type)
+                        elif field.type == ModelFieldType.ManyToManyField:
+                            related_field = parser.ParseManyToManyFieldName(field.origin_type)
                             RelatedModelClass = apps.get_model(APP_LABEL, related_field)
                             # find related record
                             related_record = RelatedModelClass.objects.filter(id=storage_value).first()
@@ -115,7 +115,7 @@ def main():
                             read_array = True # start read array
                             storage_array = "[" + str(value)
 
-                        if not read_array and not field.type == ModelFieldType.OneToOneField and not field.type == ModelFieldType.ForeignKey:
+                        if not read_array and not field.type == ModelFieldType.ForeignKey and not field.type == ModelFieldType.ManyToManyField:
                             # save storage_value
                             setattr(model_record, field.name, storage_value)
 

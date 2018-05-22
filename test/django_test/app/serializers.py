@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-18 13:51:01
+# Last generate time: 2018-05-23 02:48:07
 
 from rest_framework import serializers
 from .models import *
@@ -23,7 +23,41 @@ class GameStaticSerializer(serializers.ModelSerializer):
 			'ExpPerTime',
 			'AddExpNum',
 			'MaxExpNum',
+			'GoldPerTime',
+			'AddGoldNum',
+			'MaxGoldNum',
 			'LogicGameParam',
+		]
+
+class ActorMobileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = ActorMobile
+		fields = [
+			'id',
+			'ActorName',
+			'Coin',
+			'Mint',
+			'Exp',
+			'Level',
+			'BeginDay',
+			'GameLogicDrierAddExp',
+			'GameLogicLaserAddExp',
+			'GameLogicDrierAddHappy',
+			'GameLogicLaserAddHappy',
+			'DailyTaskGetTime',
+			'BuyMedicineNum',
+			'ActorID',
+		]
+
+class GiftMobileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = GiftMobile
+		fields = [
+			'id',
+			'CoinNum',
+			'CardStaticID',
 		]
 
 class FoodStaticSerializer(serializers.ModelSerializer):
@@ -43,6 +77,27 @@ class FoodStaticSerializer(serializers.ModelSerializer):
 			'LevelPoint',
 			'HealthPoint',
 			'FoodIconName',
+		]
+
+class TaskEventMobileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = TaskEventMobile
+		fields = [
+			'id',
+			'EventType',
+			'EventParam',
+		]
+
+class TaskOwnMobileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = TaskOwnMobile
+		fields = [
+			'id',
+			'TaskType',
+			'TaskID',
+			'TaskFinish',
 		]
 
 class CatStaticSerializer(serializers.ModelSerializer):
@@ -102,6 +157,17 @@ class WeightAddStaticSerializer(serializers.ModelSerializer):
 			'WeightNumHealthFivePoint',
 		]
 
+class CatSoundStaticSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = CatSoundStatic
+		fields = [
+			'id',
+			'CatID',
+			'AnimationName',
+			'SoundNameArray',
+		]
+
 class AudioStaticSerializer(serializers.ModelSerializer):
 
 	class Meta:
@@ -126,8 +192,11 @@ class GoldMintShopStaticSerializer(serializers.ModelSerializer):
 			'ShopItemType',
 			'ShopItemTagType',
 			'ShopItemPrice',
+			'ProductID',
 			'ShopItemNum',
 			'ShopItemSequence',
+			'ShopItemCNPrice',
+			'ShopItemENPrice',
 		]
 
 class PropShopStaticSerializer(serializers.ModelSerializer):
@@ -174,6 +243,37 @@ class CatLevelStaticSerializer(serializers.ModelSerializer):
 			'ExpNum',
 		]
 
+class CatOwnMobileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = CatOwnMobile
+		fields = [
+			'id',
+			'OwnItemType',
+			'OwnItemID',
+			'EuipOrNot',
+			'OwnNum',
+			'CatID',
+		]
+
+class CatMobileSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = CatMobile
+		fields = [
+			'id',
+			'CatStaticID',
+			'CatName',
+			'CatAge',
+			'LevelPoint',
+			'HappyPoint',
+			'HungryPoint',
+			'HealthPoint',
+			'ExpPoint',
+			'WeightPoint',
+			'CatBirthday',
+		]
+
 class LanguageStaticSerializer(serializers.ModelSerializer):
 
 	class Meta:
@@ -212,6 +312,10 @@ class PropStaticSerializer(serializers.ModelSerializer):
 			'PropMaxNum',
 			'Coin',
 			'Mint',
+			'TimeMin',
+			'TimeMax',
+			'GoldMin',
+			'GoldMax',
 		]
 
 class DailyTaskStaticSerializer(serializers.ModelSerializer):
@@ -252,39 +356,7 @@ class SevenDaySignStaticSerializer(serializers.ModelSerializer):
 			'AddPropID',
 		]
 
-class CatPathStaticSerializer(serializers.ModelSerializer):
-	PathName = LanguageStaticSerializer(read_only=True)
-	PathDescirption = LanguageStaticSerializer(read_only=True)
-
-	class Meta:
-		model = CatPathStatic
-		fields = [
-			'id',
-			'PathName',
-			'PathDescirption',
-			'TriggerGrassID',
-			'TriggerHealthPointMin',
-			'TriggerHealthPointMax',
-			'TriggerCatLevelMin',
-			'TriggerCatLevelMax',
-			'TriggerBaseCardBagID',
-			'TriggerRareCardBagID',
-			'TriggerToyCardConditionID1',
-			'TriggerCardProbability1',
-			'TriggerToyCardBagID1',
-			'TriggerToyCardConditionID2',
-			'TriggerCardProbability2',
-			'TriggerToyCardBagID2',
-			'TriggerToyCardConditionID3',
-			'TriggerCardProbability3',
-			'TriggerToyCardBagID3',
-			'TriggerToyCardConditionID4',
-			'TriggerCardProbability4',
-			'TriggerToyCardBagID4',
-		]
-
 class CardBagStaticSerializer(serializers.ModelSerializer):
-	CardBagDescirption = LanguageStaticSerializer(read_only=True)
 
 	class Meta:
 		model = CardBagStatic
@@ -292,13 +364,10 @@ class CardBagStaticSerializer(serializers.ModelSerializer):
 			'id',
 			'CardBagType',
 			'CardBagProbability',
-			'CardBagDescirption',
 		]
 
 class CardStaticSerializer(serializers.ModelSerializer):
 	CardBagID = CardBagStaticSerializer(read_only=True)
-	CardName = LanguageStaticSerializer(read_only=True)
-	CardDescirption = LanguageStaticSerializer(read_only=True)
 
 	class Meta:
 		model = CardStatic
@@ -306,8 +375,6 @@ class CardStaticSerializer(serializers.ModelSerializer):
 			'id',
 			'CardBagID',
 			'CardProbability',
-			'CardName',
-			'CardDescirption',
 			'CardRes',
 			'CardStar',
 			'RecycleCoin',
@@ -321,10 +388,18 @@ class ConstStaticSerializer(serializers.ModelSerializer):
 			'id',
 			'CatTriggerTime',
 			'MaxRestoreCardNum',
+			'BgSoundName_ARRoom',
+			'BgSoundName_3DRoom',
+			'BgSoundName_FittingRoom',
+			'CommonSound_GetCoin',
+			'CommonSound_GetCard',
+			'CommonSound_OpenView',
+			'CommonSound_GetSunperCard',
 		]
 
 class CostumeStaticSerializer(serializers.ModelSerializer):
 	CostumeName = LanguageStaticSerializer(read_only=True)
+	CostumeMatchedCat = CatStaticSerializer(read_only=True)
 
 	class Meta:
 		model = CostumeStatic
@@ -339,6 +414,7 @@ class CostumeStaticSerializer(serializers.ModelSerializer):
 			'CostumePrice',
 			'MintPrice',
 			'CostumeIconName',
+			'CostumeMatchedCat',
 		]
 
 class AnimationStaticSerializer(serializers.ModelSerializer):
@@ -366,5 +442,47 @@ class UserGuideStaticSerializer(serializers.ModelSerializer):
 			'UserGuideCondition',
 			'UserGuideEvent',
 			'NextGuideID',
+		]
+
+class CatPathStaticSerializer(serializers.ModelSerializer):
+	TriggerGrassID = PropStaticSerializer(read_only=True)
+	TriggerBaseCardBagID = CardBagStaticSerializer(read_only=True)
+	TriggerRareCardBagID = CardBagStaticSerializer(read_only=True)
+	TriggerToyCardBagID1 = CardBagStaticSerializer(read_only=True)
+	TriggerToyCardBagID2 = CardBagStaticSerializer(read_only=True)
+	TriggerToyCardBagID3 = CardBagStaticSerializer(read_only=True)
+	TriggerToyCardBagID4 = CardBagStaticSerializer(read_only=True)
+	TriggerToyCardBagID5 = CardBagStaticSerializer(read_only=True)
+	TriggerToyCardBagID6 = CardBagStaticSerializer(read_only=True)
+
+	class Meta:
+		model = CatPathStatic
+		fields = [
+			'id',
+			'TriggerGrassID',
+			'TriggerHealthPointMin',
+			'TriggerHealthPointMax',
+			'TriggerCatLevelMin',
+			'TriggerCatLevelMax',
+			'TriggerBaseCardBagID',
+			'TriggerRareCardBagID',
+			'TriggerToyCardConditionID1',
+			'TriggerCardProbability1',
+			'TriggerToyCardBagID1',
+			'TriggerToyCardConditionID2',
+			'TriggerCardProbability2',
+			'TriggerToyCardBagID2',
+			'TriggerToyCardConditionID3',
+			'TriggerCardProbability3',
+			'TriggerToyCardBagID3',
+			'TriggerToyCardConditionID4',
+			'TriggerCardProbability4',
+			'TriggerToyCardBagID4',
+			'TriggerToyCardConditionID5',
+			'TriggerCardProbability5',
+			'TriggerToyCardBagID5',
+			'TriggerToyCardConditionID6',
+			'TriggerCardProbability6',
+			'TriggerToyCardBagID6',
 		]
 

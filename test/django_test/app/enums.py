@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-18 13:51:01
+# Last generate time: 2018-05-23 02:48:07
 
 from enum import Enum
 
@@ -15,7 +15,7 @@ class EnumGameType(Enum):
 
 class EnumFoodType(Enum):
 	CatFood = 0 # 猫粮
-	GreenFood = 1 # 绿叶菜
+	GreenFood = 1 # 蔬菜
 	Banana = 2 # 香蕉
 	Fish = 3 # 鱼干
 	Cheese = 4 # 奶酪
@@ -52,10 +52,18 @@ class EnumUserGuideEventType(Enum):
 	AIAction = 2 # AI行为
 	SetGuideFinish = 3 # 设置引导结束
 
+class EnumOwnItemType(Enum):
+	Food = 0 # 粮食
+	Costume = 1 # 服装
+	Grass = 2 # 猫草
+	Toy = 3 # 玩具
+	Card = 4 # 卡片
+
 class EnumDialogType(Enum):
 	Hat = 0 # 帽子
 	Neckcloth = 1 # 领带
 	Glass = 2 # 眼镜
+	CostumeClearAllFashionDialog = 3 # 换衣间时装清除
 
 class EnumPropType(Enum):
 	Grass = 0 # 猫草
@@ -75,4 +83,5 @@ class EnumCostumeType(Enum):
 	Hat = 0 # 帽子
 	Neckcloth = 1 # 领带
 	Glass = 2 # 眼镜
+	Hair = 3 # 毛色
 

@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-18 13:51:01
+# Last generate time: 2018-05-22 21:12:45
 
 from django.contrib import admin
 from .models import *
@@ -11,10 +11,30 @@ class GameStaticAdmin(admin.ModelAdmin):
 
 admin.site.register(GameStatic, GameStaticAdmin)
 
+class ActorMobileAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(ActorMobile, ActorMobileAdmin)
+
+class GiftMobileAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(GiftMobile, GiftMobileAdmin)
+
 class FoodStaticAdmin(admin.ModelAdmin):
 	pass
 
 admin.site.register(FoodStatic, FoodStaticAdmin)
+
+class TaskEventMobileAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(TaskEventMobile, TaskEventMobileAdmin)
+
+class TaskOwnMobileAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(TaskOwnMobile, TaskOwnMobileAdmin)
 
 class CatStaticAdmin(admin.ModelAdmin):
 	pass
@@ -30,6 +50,11 @@ class WeightAddStaticAdmin(admin.ModelAdmin):
 	pass
 
 admin.site.register(WeightAddStatic, WeightAddStaticAdmin)
+
+class CatSoundStaticAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(CatSoundStatic, CatSoundStaticAdmin)
 
 class AudioStaticAdmin(admin.ModelAdmin):
 	pass
@@ -65,6 +90,16 @@ class CatLevelStaticAdmin(admin.ModelAdmin):
 	pass
 
 admin.site.register(CatLevelStatic, CatLevelStaticAdmin)
+
+class CatOwnMobileAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(CatOwnMobile, CatOwnMobileAdmin)
+
+class CatMobileAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(CatMobile, CatMobileAdmin)
 
 class LanguageStaticAdmin(admin.ModelAdmin):
 	pass

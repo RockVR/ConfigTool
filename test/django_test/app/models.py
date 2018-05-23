@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-23 02:48:07
+# Last generate time: 2018-05-23 13:11:16
 
 from django.db import models
 
@@ -99,7 +99,7 @@ class GameStatic(models.Model):
 	LogicGameParam = models.CharField(max_length=255)
 
 	def __str__(self):
-		return u'GameStatic'
+		return 'GameStatic: ' + str(self.id)
 
 # Description: 角色动态表
 # Group: ActorLogicMobile
@@ -183,7 +183,7 @@ class ActorMobile(models.Model):
 	ActorID = models.CharField(max_length=255, null=True, blank=True)
 
 	def __str__(self):
-		return u'ActorMobile'
+		return 'ActorMobile: ' + str(self.id)
 
 # Description: 猫拥有礼物表
 # Group: ActorLogicMobile
@@ -201,7 +201,7 @@ class GiftMobile(models.Model):
 	CardStaticID = models.BooleanField(default=False)
 
 	def __str__(self):
-		return u'GiftMobile'
+		return 'GiftMobile: ' + str(self.id)
 
 # Description: 食物静态表
 # Group: CatLogicStatic
@@ -273,7 +273,7 @@ class FoodStatic(models.Model):
 	FoodIconName = models.CharField(max_length=255)
 
 	def __str__(self):
-		return u'FoodStatic'
+		return 'FoodStatic: ' + str(self.id)
 
 # Description: 任务事件动态表
 # Group: ActorLogicMobile
@@ -291,7 +291,7 @@ class TaskEventMobile(models.Model):
 	EventParam = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'TaskEventMobile'
+		return 'TaskEventMobile: ' + str(self.id)
 
 # Description: 任务动态表
 # Group: ActorLogicMobile
@@ -315,7 +315,7 @@ class TaskOwnMobile(models.Model):
 	TaskFinish = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'TaskOwnMobile'
+		return 'TaskOwnMobile: ' + str(self.id)
 
 # Description: 猫静态表
 # Group: CatLogicStatic
@@ -471,7 +471,7 @@ class CatStatic(models.Model):
 	NexLevelID = models.ForeignKey('CatStatic', on_delete=models.CASCADE, related_name='PrevLevelID', null=True, blank=True)
 
 	def __str__(self):
-		return u'CatStatic'
+		return 'CatStatic: ' + str(self.id)
 
 # Description: 猫经验增加静态表
 # Group: CatLogicStatic
@@ -489,7 +489,7 @@ class ExpAddStatic(models.Model):
 	ExpPoint = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'ExpAddStatic'
+		return 'ExpAddStatic: ' + str(self.id)
 
 # Description: 猫健康对应体重静态表
 # Group: CatLogicStatic
@@ -531,7 +531,7 @@ class WeightAddStatic(models.Model):
 	WeightNumHealthFivePoint = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'WeightAddStatic'
+		return 'WeightAddStatic: ' + str(self.id)
 
 # Description: 猫音效表
 # Group: CatLogicStatic
@@ -555,7 +555,7 @@ class CatSoundStatic(models.Model):
 	SoundNameArray = models.TextField()
 
 	def __str__(self):
-		return u'CatSoundStatic'
+		return 'CatSoundStatic: ' + str(self.id)
 
 # Description: 音效静态表
 # Group: InitializeStatic
@@ -603,7 +603,7 @@ class AudioStatic(models.Model):
 	Audio3DMaxDistance = models.FloatField(default=0, null=True, blank=True)
 
 	def __str__(self):
-		return u'AudioStatic'
+		return 'AudioStatic: ' + str(self.id)
 
 # Description: 金币薄荷商店
 # Group: ShopStaticGroup
@@ -657,7 +657,7 @@ class GoldMintShopStatic(models.Model):
 	ShopItemENPrice = models.CharField(max_length=255, null=True, blank=True)
 
 	def __str__(self):
-		return u'GoldMintShopStatic'
+		return 'GoldMintShopStatic: ' + str(self.id)
 
 # Description: 道具商店
 # Group: ShopStaticGroup
@@ -693,7 +693,7 @@ class PropShopStatic(models.Model):
 	ShopItemSequence = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'PropShopStatic'
+		return 'PropShopStatic: ' + str(self.id)
 
 # Description: 新手引导静态表
 # Group: UserGuideStaticGroup
@@ -702,13 +702,13 @@ class UserGuideStatic(models.Model):
 	# Type: array(id(UserGuideConditionStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	UserGuideCondition = models.ManyToManyField('UserGuideConditionStatic', related_name='UserGuideCondition_Related')
+	UserGuideCondition = models.ManyToManyField('UserGuideConditionStatic', related_name='UserGuideConditionRelated')
 
 	# Description: 用户引导事件
 	# Type: array(id(UserGuideEventStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	UserGuideEvent = models.ManyToManyField('UserGuideEventStatic', related_name='UserGuideEvent_Related')
+	UserGuideEvent = models.ManyToManyField('UserGuideEventStatic', related_name='UserGuideEventRelated')
 
 	# Description: 下一个引导列表
 	# Type: array(id(UserGuideStatic))
@@ -717,7 +717,7 @@ class UserGuideStatic(models.Model):
 	NextGuideID = models.ManyToManyField('UserGuideStatic', related_name='PrevGuideID')
 
 	def __str__(self):
-		return u'UserGuideStatic'
+		return 'UserGuideStatic: ' + str(self.id)
 
 # Description: 新手引导静态条件表
 # Group: UserGuideStaticGroup
@@ -735,7 +735,7 @@ class UserGuideConditionStatic(models.Model):
 	ConditionParam = models.TextField()
 
 	def __str__(self):
-		return u'UserGuideConditionStatic'
+		return 'UserGuideConditionStatic: ' + str(self.id)
 
 # Description: 新手引导事件静态表
 # Group: UserGuideStaticGroup
@@ -759,7 +759,7 @@ class UserGuideEventStatic(models.Model):
 	NextGuideEventIDArray = models.ManyToManyField('UserGuideEventStatic', related_name='PrevGuideEventIDArray')
 
 	def __str__(self):
-		return u'UserGuideEventStatic'
+		return 'UserGuideEventStatic: ' + str(self.id)
 
 # Description: 猫经验升级静态表
 # Group: CatLogicStatic
@@ -777,7 +777,7 @@ class CatLevelStatic(models.Model):
 	ExpNum = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'CatLevelStatic'
+		return 'CatLevelStatic: ' + str(self.id)
 
 # Description: 猫拥有动态表
 # Group: CatLogicMobile
@@ -813,7 +813,7 @@ class CatOwnMobile(models.Model):
 	CatID = models.IntegerField(default=0, null=True, blank=True)
 
 	def __str__(self):
-		return u'CatOwnMobile'
+		return 'CatOwnMobile: ' + str(self.id)
 
 # Description: 猫动态表
 # Group: CatLogicMobile
@@ -879,7 +879,7 @@ class CatMobile(models.Model):
 	CatBirthday = models.CharField(max_length=255)
 
 	def __str__(self):
-		return u'CatMobile'
+		return 'CatMobile: ' + str(self.id)
 
 # Description: 多国语言静态表
 # Group: InitializeStatic
@@ -897,7 +897,7 @@ class LanguageStatic(models.Model):
 	LanguageChnInfo = models.CharField(max_length=255, null=True, blank=True)
 
 	def __str__(self):
-		return u'LanguageStatic'
+		return 'LanguageStatic: ' + str(self.id)
 
 # Description: 对话框静态表
 # Group: InitializeStatic
@@ -912,16 +912,16 @@ class DialogStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	DialogTitle = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DialogTitle_Related')
+	DialogTitle = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DialogTitleRelated')
 
 	# Description: 内容
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	DialogInfo = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DialogInfo_Related')
+	DialogInfo = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DialogInfoRelated')
 
 	def __str__(self):
-		return u'DialogStatic'
+		return 'DialogStatic: ' + str(self.id)
 
 # Description: 道具静态表
 # Group: CatLogicStatic
@@ -936,13 +936,13 @@ class PropStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	PropName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='PropName_Related')
+	PropName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='PropNameRelated')
 
 	# Description: 道具描述
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	PropDescirption = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='PropDescirption_Related')
+	PropDescirption = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='PropDescirptionRelated')
 
 	# Description: 道具图标
 	# Type: string
@@ -993,7 +993,7 @@ class PropStatic(models.Model):
 	GoldMax = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'PropStatic'
+		return 'PropStatic: ' + str(self.id)
 
 # Description: 每日任务静态表
 # Group: TaskStaticGroup
@@ -1002,7 +1002,7 @@ class DailyTaskStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	DailyTaskName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DailyTaskName_Related', null=True, blank=True)
+	DailyTaskName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='DailyTaskNameRelated', null=True, blank=True)
 
 	# Description: 出现概率（1-100）
 	# Type: int
@@ -1023,7 +1023,7 @@ class DailyTaskStatic(models.Model):
 	TaskEventNum = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'DailyTaskStatic'
+		return 'DailyTaskStatic: ' + str(self.id)
 
 # Description: 每日任务静态表
 # Group: TaskStaticGroup
@@ -1065,7 +1065,7 @@ class DailyTaskRewardStatic(models.Model):
 	CreditCostum = models.IntegerField(default=0, null=True, blank=True)
 
 	def __str__(self):
-		return u'DailyTaskRewardStatic'
+		return 'DailyTaskRewardStatic: ' + str(self.id)
 
 # Description: 七日签到静态表
 # Group: TaskStaticGroup
@@ -1089,7 +1089,7 @@ class SevenDaySignStatic(models.Model):
 	AddPropID = models.IntegerField(default=0, null=True, blank=True)
 
 	def __str__(self):
-		return u'SevenDaySignStatic'
+		return 'SevenDaySignStatic: ' + str(self.id)
 
 # Description: 猫路线静态表
 # Group: CardStaticGroup
@@ -1098,7 +1098,7 @@ class CatPathStatic(models.Model):
 	# Type: array(id(PropStatic))
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerGrassID = models.ManyToManyField('PropStatic', related_name='TriggerGrassID_Related', null=True, blank=True)
+	TriggerGrassID = models.ManyToManyField('PropStatic', related_name='TriggerGrassIDRelated', null=True, blank=True)
 
 	# Description: 激活条件-最小健康值
 	# Type: int
@@ -1128,13 +1128,13 @@ class CatPathStatic(models.Model):
 	# Type: array(id(CardBagStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	TriggerBaseCardBagID = models.ManyToManyField('CardBagStatic', related_name='TriggerBaseCardBagID_Related')
+	TriggerBaseCardBagID = models.ManyToManyField('CardBagStatic', related_name='TriggerBaseCardBagIDRelated')
 
 	# Description: 激活稀有卡包
 	# Type: array(id(CardBagStatic))
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerRareCardBagID = models.ManyToManyField('CardBagStatic', related_name='TriggerRareCardBagID_Related', null=True, blank=True)
+	TriggerRareCardBagID = models.ManyToManyField('CardBagStatic', related_name='TriggerRareCardBagIDRelated', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 1
 	# Type: int
@@ -1152,7 +1152,7 @@ class CatPathStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID1 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID1_Related', null=True, blank=True)
+	TriggerToyCardBagID1 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID1Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 2
 	# Type: int
@@ -1170,7 +1170,7 @@ class CatPathStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID2 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID2_Related', null=True, blank=True)
+	TriggerToyCardBagID2 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID2Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 3
 	# Type: int
@@ -1188,7 +1188,7 @@ class CatPathStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID3 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID3_Related', null=True, blank=True)
+	TriggerToyCardBagID3 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID3Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 4
 	# Type: int
@@ -1206,7 +1206,7 @@ class CatPathStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID4 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID4_Related', null=True, blank=True)
+	TriggerToyCardBagID4 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID4Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 5
 	# Type: int
@@ -1224,7 +1224,7 @@ class CatPathStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID5 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID5_Related', null=True, blank=True)
+	TriggerToyCardBagID5 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID5Related', null=True, blank=True)
 
 	# Description: 激活玩具卡包 玩具id 6
 	# Type: int
@@ -1242,10 +1242,10 @@ class CatPathStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: False
 	# Server: True, Client: True
-	TriggerToyCardBagID6 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID6_Related', null=True, blank=True)
+	TriggerToyCardBagID6 = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='TriggerToyCardBagID6Related', null=True, blank=True)
 
 	def __str__(self):
-		return u'CatPathStatic'
+		return 'CatPathStatic: ' + str(self.id)
 
 # Description: 卡包静态表
 # Group: CardStaticGroup
@@ -1263,7 +1263,7 @@ class CardBagStatic(models.Model):
 	CardBagProbability = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'CardBagStatic'
+		return 'CardBagStatic: ' + str(self.id)
 
 # Description: 卡片静态表
 # Group: CardStaticGroup
@@ -1272,7 +1272,7 @@ class CardStatic(models.Model):
 	# Type: id(CardBagStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CardBagID = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='CardBagID_Related')
+	CardBagID = models.ForeignKey('CardBagStatic', on_delete=models.CASCADE, related_name='CardBagIDRelated')
 
 	# Description: 卡权重
 	# Type: int
@@ -1299,7 +1299,7 @@ class CardStatic(models.Model):
 	RecycleCoin = models.IntegerField(default=0)
 
 	def __str__(self):
-		return u'CardStatic'
+		return 'CardStatic: ' + str(self.id)
 
 # Description: 常量静态表
 # Group: InitializeStatic
@@ -1359,7 +1359,7 @@ class ConstStatic(models.Model):
 	CommonSound_GetSunperCard = models.CharField(max_length=255)
 
 	def __str__(self):
-		return u'ConstStatic'
+		return 'ConstStatic: ' + str(self.id)
 
 # Description: 时装静态表
 # Group: CatLogicStatic
@@ -1392,7 +1392,7 @@ class CostumeStatic(models.Model):
 	# Type: id(LanguageStatic)
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CostumeName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='CostumeName_Related')
+	CostumeName = models.ForeignKey('LanguageStatic', on_delete=models.CASCADE, related_name='CostumeNameRelated')
 
 	# Description: 服装魅力值
 	# Type: int
@@ -1422,10 +1422,10 @@ class CostumeStatic(models.Model):
 	# Type: array(id(CatStatic))
 	# Unique: False, Required: True
 	# Server: True, Client: True
-	CostumeMatchedCat = models.ManyToManyField('CatStatic', related_name='CostumeMatchedCat_Related')
+	CostumeMatchedCat = models.ManyToManyField('CatStatic', related_name='CostumeMatchedCatRelated')
 
 	def __str__(self):
-		return u'CostumeStatic'
+		return 'CostumeStatic: ' + str(self.id)
 
 # Description: 动画静态表
 # Group: InitializeStatic
@@ -1467,5 +1467,5 @@ class AnimationStatic(models.Model):
 	AnimationParam2Variable = models.FloatField(default=0, null=True, blank=True)
 
 	def __str__(self):
-		return u'AnimationStatic'
+		return 'AnimationStatic: ' + str(self.id)
 

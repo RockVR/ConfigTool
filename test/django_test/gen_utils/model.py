@@ -36,7 +36,7 @@ class ModelField:
         return ret
 
     def __GetRelatedName(self):
-        related_name = self.name + '_Related'
+        related_name = self.name + 'Related'
         if 'Next' in self.name:
             related_name = self.name.replace('Next', 'Prev')
         elif 'Nex' in self.name:

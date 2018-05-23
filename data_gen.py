@@ -16,18 +16,17 @@ def main():
         # parse failed
         return
     (gen_models, gen_enums) = ret
-    print("Writing data...")
+    print("Writing model data...")
     pending_models = list(gen_models)
     written_model_names = set()
+    # first round
     for model in pending_models:
         # check if model has relation field
         related_model_tup = list() # (0: field_name, 1: field_type)
         for field in model.fields:
-            if field.type == ModelFieldType.ForeignKey or field.type == ModelFieldType.ManyToManyField:
+            if field.type == ModelFieldType.ForeignKey:
                 if field.type == ModelFieldType.ForeignKey:
                     related_field = parser.ParseForeignKeyName(field.origin_type)
-                elif field.type == ModelFieldType.ManyToManyField:
-                    related_field = parser.ParseManyToManyFieldName(field.origin_type)
                 if not related_field:
                     raise Exception('Parse related field error ' + field.origin_type)
                 tup = (field.name, related_field)
@@ -100,22 +99,13 @@ def main():
                                 else:
                                     raise Exception('No related field model data ' + related_field)
                         elif field.type == ModelFieldType.ManyToManyField:
-                            related_field = parser.ParseManyToManyFieldName(field.origin_type)
-                            RelatedModelClass = apps.get_model(APP_LABEL, related_field)
-                            # find related record
-                            related_record = RelatedModelClass.objects.filter(id=storage_value).first()
-                            if related_record:
-                                setattr(model_record, field.name, related_record)
-                            else:
-                                if related_field == model.name:
-                                    pending = True
-                                else:
-                                    raise Exception('No related field model data ' + related_field)
+                            # can't associate it with a ManyToManyField until it's been saved
+                            pass
                         elif not read_array and field.origin_type.startswith('array('): # array type
                             read_array = True # start read array
                             storage_array = "[" + str(value)
 
-                        if not read_array and not field.type == ModelFieldType.ForeignKey and not field.type == ModelFieldType.ManyToManyField:
+                        if not read_array and field.type != ModelFieldType.ForeignKey and field.type != ModelFieldType.ManyToManyField:
                             # save storage_value
                             setattr(model_record, field.name, storage_value)
 
@@ -132,7 +122,6 @@ def main():
                         elif not field.origin_type.startswith('array('): # end read
                             storage_array += "]"
                             setattr(model_record, field_names[j - 1], storage_array)
-                            # TODO save storage_array
                             read_array = False
 
                     # if not array type
@@ -150,6 +139,40 @@ def main():
         else:
             # push back current model for next visit
             pending_models.append(model)
+
+    # second round for writing many-to-many field
+    print("Writing many-to-many field data...")
+    for model in gen_models:
+        ModelClass = apps.get_model(APP_LABEL, model.name)
+        data = parser.ParseData(model.xls_name, model.sheet_name)
+        # start from 1, skip field name
+        for i in range(1, len(data)):
+            field_names = data[0]
+            row_data = data[i]
+            row_id = int(row_data[0])
+            # should already in db
+            model_record = ModelClass.objects.filter(id=row_id).first()
+            if not model_record:
+                raise Exception('Record not found for model ' + model.name)
+            k = 1
+            for j in range(1, len(row_data)):
+                value = row_data[j]
+                field = model.fields[k]
+                if value:
+                    if field.type == ModelFieldType.ManyToManyField:
+                        related_field = parser.ParseManyToManyFieldName(field.origin_type)
+                        RelatedModelClass = apps.get_model(APP_LABEL, related_field)
+                        # find related record
+                        related_record = RelatedModelClass.objects.filter(id=value).first()
+                        if not related_record:
+                            raise Exception('Record not found for model ' + related_field)
+                        m2m_instance = getattr(model_record, field.name)
+                        print("Adding many-to-many relation " + model.name + "-" + related_field + " through field " + field.name + " id: " + str(row_id) + "-" + str(value))
+                        m2m_instance.add(related_record)
+
+                # if not array type
+                if len(field_names) > j + 1 and field_names[j] != field_names[j + 1]:
+                    k += 1
 
     print("Success!")
 

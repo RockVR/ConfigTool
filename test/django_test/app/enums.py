@@ -1,7 +1,7 @@
 # This file is auto-generated, please don't modify it directly.
 # Modify source xls file and use model_gen to regenerate again.
 #
-# Last generate time: 2018-05-23 02:48:07
+# Last generate time: 2018-05-23 13:11:16
 
 from enum import Enum
 

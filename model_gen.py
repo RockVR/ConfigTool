@@ -81,7 +81,7 @@ def main():
             writer.I0(model_file)
         # __str__
         writer.I1(model_file, "def __str__(self):")
-        writer.I2(model_file, "return u'{}'".format(model.name))
+        writer.I2(model_file, "return '{}: ' + str(self.id)".format(model.name))
         writer.I0(model_file)
 
     # write admin.py
